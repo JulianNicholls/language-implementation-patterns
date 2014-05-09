@@ -1,4 +1,4 @@
-include 'token'
+require 'lexer'
 
 class ListLexer < Lexer
   NAME    = 2
@@ -23,30 +23,29 @@ class ListLexer < Lexer
   
   def next_token
     while c != EOF
+#      puts "P=#{@p}, C='#{c}'"
       case c
-      when ' '
-      when '\t'
-      when '\n'
-      when '\r'
-        ws
+      when ' ', "\t", "\n", "\r" then ws
         
       when ','
         consume
-        return Token.new( COMMA, c )
+        return Token.new( COMMA, ',' )
         
       when '['
         consume
-        return Token.new( LBRACK, c )
+        return Token.new( LBRACK, '[' )
         
       when ']'
         consume
-        return Token.new( RBRACK, c )
+        return Token.new( RBRACK, ']' )
     
       else
         return name if letter? c
         fail "Invalid character '#{c}'"
       end
     end
+    
+    Token.new( EOF_TYPE, '<eof>' )
   end
   
   def name
@@ -58,7 +57,7 @@ class ListLexer < Lexer
       break unless letter? c
     end
     
-    ident
+    Token.new( NAME, ident )
   end
   
   def ws
