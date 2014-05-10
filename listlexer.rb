@@ -8,13 +8,13 @@ class ListLexer < Lexer
   
   TOKEN_NAMES = ['Error', '<EOF>', 'NAME', 'COMMA', 'LBRACK', 'RBRACK']
   
-  def initialize( input )
-    super
-  end
-  
-  def tname( type )
+  def self.tname( type )
     idx = type >= TOKEN_NAMES.size ? 0 : type
     "#{TOKEN_NAMES[idx]} (#{type})"
+  end
+  
+  def initialize( input )
+    super
   end
   
   def letter?( ch )
