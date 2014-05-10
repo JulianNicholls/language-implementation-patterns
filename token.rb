@@ -10,4 +10,6 @@ class Token
     
     "<'#{text}', #{tname}>"
   end
+  
+  alias_method :decode, :to_s
 end
