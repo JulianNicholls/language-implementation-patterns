@@ -5,8 +5,9 @@ class ListLexer < Lexer
   COMMA   = 3
   LBRACK  = 4
   RBRACK  = 5
+  EQUALS  = 6
   
-  TOKEN_NAMES = ['Error', '<EOF>', 'NAME', 'COMMA', 'LBRACK', 'RBRACK']
+  TOKEN_NAMES = ['Error', '<EOF>', 'NAME', 'COMMA', 'LBRACK', 'RBRACK', 'EQUALS']
   
   def self.tname( type )
     idx = type >= TOKEN_NAMES.size ? 0 : type
@@ -35,6 +36,10 @@ class ListLexer < Lexer
         consume
         return Token.new( RBRACK, ']' )
     
+      when '='
+        consume
+        return Token.new( EQUALS, '=' )
+
       else
         return name if letter? c
         fail "Invalid character '#{c}'"
