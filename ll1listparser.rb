@@ -1,5 +1,5 @@
 require 'listlexer'
-require 'parser'
+require 'll1parser'
 
 class ListParser < Parser
   def list
