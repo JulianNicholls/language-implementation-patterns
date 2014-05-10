@@ -13,10 +13,6 @@ class ListLexer < Lexer
     "#{TOKEN_NAMES[idx]} (#{type})"
   end
   
-  def initialize( input )
-    super
-  end
-  
   def letter?( ch )
     ch.between?( 'A', 'Z' ) || ch.between?( 'a', 'z' ) 
   end
