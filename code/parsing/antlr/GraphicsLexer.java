@@ -1,12 +1,4 @@
-/***
- * Excerpted from "Language Implementation Patterns",
- * published by The Pragmatic Bookshelf.
- * Copyrights apply to this code. It may not be used to create training material, 
- * courses, books, articles, and the like. Contact us if you are in doubt.
- * We make no guarantees that this code is fit for any purpose. 
- * Visit http://www.pragmaticprogrammer.com/titles/tpdsl for more book information.
-***/
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 Graphics.g 2009-09-23 17:38:36
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 Graphics.g 2014-05-15 18:07:07
 
 import org.antlr.runtime.*;
 import java.util.Stack;
