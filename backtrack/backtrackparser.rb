@@ -22,9 +22,7 @@ class BacktrackParser < Parser
     begin
       list
       match( Lexer::EOF_TYPE )
-    rescue => e
-      puts e.message
-      puts e.backtrace.join "\n"
+    rescue
       success = false
     end
 
@@ -38,9 +36,7 @@ class BacktrackParser < Parser
     begin
       assign
       match( Lexer::EOF_TYPE )
-    rescue   => e
-      puts e.message
-      puts e.backtrace.join "\n"
+    rescue
       success = false
     end
 
