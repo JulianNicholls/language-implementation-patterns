@@ -1,6 +1,12 @@
 require '../listlexer'
 
 class Parser
+  FAILED = -1
+
+  attr_reader :p
+  
+  alias_method :index, :p
+  
   def initialize( input )
     @input      = input
     @markers    = []
@@ -44,6 +50,7 @@ class Parser
     if @p == @lookahead.size && !speculating?
       @p = 0
       @lookahead = []
+      clear_memos
     end
 
     sync 1
@@ -65,5 +72,21 @@ class Parser
 
   def speculating?
     @markers.size > 0
+  end
+  
+  def already_parsed?( memo )
+    return false unless memo.key? index
+    
+    last = memo[index]
+    puts "parsed list before at index #{index}, skip to #{@lookahead[last].text}"
+    
+    fail "Previous parse failed" if last == FAILED
+    seek( last )
+    true
+  end
+  
+  def memoise( memo, start, failed )
+    stop = failed ? FAILED : index
+    memo[start] = stop
   end
 end

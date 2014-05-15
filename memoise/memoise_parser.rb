@@ -1,6 +1,15 @@
 require 'parser'
 
-class BacktrackParser < Parser
+class MemoiseParser < Parser
+  def initialize( input )
+    super
+    clear_memos
+  end
+
+  def clear_memos
+    @list_memo = {}
+  end
+
   # stat: list EOF | assign EOF
   def stat
     if speculate_stat_list
@@ -22,13 +31,14 @@ class BacktrackParser < Parser
     begin
       list
       match( Lexer::EOF_TYPE )
-    rescue => e
-      puts e.message
-      puts e.backtrace.join "\n"
+    rescue   => re
+#      puts re.message
+#      puts re.backtrace.join "\n"
       success = false
+    ensure
+      release
     end
 
-    release
     success
   end
 
@@ -38,20 +48,34 @@ class BacktrackParser < Parser
     begin
       assign
       match( Lexer::EOF_TYPE )
-    rescue   => e
-      puts e.message
-      puts e.backtrace.join "\n"
+    rescue   => re
+#      puts re.message
+#      puts re.backtrace.join "\n"
       success = false
+    ensure
+      release
     end
 
-    release
     success
   end
 
   def list
-    match ListLexer::LBRACK
-    elements
-    match ListLexer::RBRACK
+    failed = false
+
+    start = index
+
+    return if speculating? && already_parsed?( @list_memo )
+
+    begin
+      internal_list
+    rescue => re
+#      puts re.message
+#      puts re.backtrace.join "\n"
+      failed = true
+      raise
+    ensure
+      memoise( @list_memo, start, failed )
+    end
   end
 
   def assign
@@ -81,4 +105,15 @@ class BacktrackParser < Parser
       fail "Expected name, assignment, or list, found: #{lat( 1 ).decode( ListLexer )}"
     end
   end
+
+  private
+
+  def internal_list
+    puts "parse list rule at token index #{index}"
+
+    match ListLexer::LBRACK
+    elements
+    match ListLexer::RBRACK
+  end
+
 end

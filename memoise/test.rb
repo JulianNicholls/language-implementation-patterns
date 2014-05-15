@@ -1,9 +1,9 @@
 #! /usr/bin/env ruby -I. -I..
 
-require 'backtrackparser'
+require 'memoise_parser'
 
 lexer = ListLexer.new( ARGV[0] )
-bp    = BacktrackParser.new( lexer )
+bp    = MemoiseParser.new( lexer )
 
 bp.stat
  
