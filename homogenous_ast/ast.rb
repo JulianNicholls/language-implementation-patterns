@@ -32,7 +32,7 @@ class AST
     return to_s if @children.empty?
 
     ret = is_nil? ? '' : "(#{to_s} "
-    @children.each { |ch| ret << ch.to_tree  + ' ' }
+    ret += @children.map( &:to_tree ).join ' '
 
     ret + (is_nil? ? '' : ')')
   end
