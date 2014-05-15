@@ -12,7 +12,7 @@ class Parser
     if ltype( 1 ) == expected
       consume
     else
-      fail "Expected #{@input.tname expected}, found: #{lat( 0 )}"
+      fail "Expected #{@input.tname expected}, found: #{lat( 1 )}"
     end
   end
   
